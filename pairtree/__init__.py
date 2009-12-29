@@ -19,6 +19,18 @@ Various regexes used in path to id conversion and the bulk of the unittests were
 contributed by Erik Hetzner, based on John Kunze's work, also (c) 2009 UC Regents
 and released under the Apache license.
 
+pairtree functions
+==================
+
+If you just want to convert an id to a path, and a path back to an id try
+out the id2path and path2id functions:
+
+>>> import pairtree
+>>> pairtree.id2path('http://example.com/1234/abcd')
+'ht/tp/+=/=e/xa/mp/le/,c/om/=1/23/4=/ab/cd'
+>>> pairtree.path2id('ht/tp/+=/=e/xa/mp/le/,c/om/=1/23/4=/ab/cd')
+u'http://example.com/1234/abcd'
+
 The ppath script
 ================
 
@@ -197,3 +209,18 @@ from pairtree_object import *
 from pairtree_path import *
 from storage_exceptions import *
 
+_client =  PairtreeStorageClient(store_dir='data', uri_base="info:data/")
+
+def id2path(id):
+    """
+    pass in a pairtree id and get back a path
+    """
+    path = _client._id_to_dirpath(id)
+    return path.replace(_client.pairtree_root + os.path.sep, '')
+
+def path2id(path):
+    """
+    pass in a pairtree path and get back an id
+    """
+    path = os.path.join(_client.pairtree_root, path)
+    return _client._get_id_from_dirpath(path)

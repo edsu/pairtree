@@ -1,29 +1,27 @@
 # -*- coding: utf-8 -*-
 import random, unittest, re
-from pairtree import PairtreeStorageClient
+from pairtree import PairtreeStorageClient, id2path, path2id
+
 
 class TestPairtree(unittest.TestCase):
+
     def i2p2i(self, id, target, label):
         ppath = self.pairtree._id_to_dir_list(id)[1:]
         self.assertEqual(ppath, target)
-        #self.assertEqual( reverse it)
 
     def roundtrip(self, id, label):
         ppath = self.pairtree.id_encode(id)
         new_id = self.pairtree.id_decode(ppath)
         self.assertEqual(id, new_id)
-        #self.assertEqual( reverse it)
 
     def setUp(self):
         self.pairtree = PairtreeStorageClient('http://example.org', '/tmp/pairtree', 2)
 
-    def test_empty(self):
-        pass
-        #try:
-        #    ppath = PairPath("")
-        #    self.assertFalse(True, 'Empty id should raise exception')
-        #except BadPairPath:
-        #    pass
+    def test_functions(self):
+        self.assertEqual(id2path('http://example.org/1234/abcd'), 
+                         'ht/tp/+=/=e/xa/mp/le/,o/rg/=1/23/4=/ab/cd')
+        self.assertEqual(path2id('ht/tp/+=/=e/xa/mp/le/,o/rg/=1/23/4=/ab/cd'), 
+                         'http://example.org/1234/abcd')
 
     def testabc(self):
         self.i2p2i('abc', ['ab','c'], 'basic 3-char case')

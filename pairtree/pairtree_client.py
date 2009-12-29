@@ -65,7 +65,7 @@ class PairtreeStorageClient(object):
     Also, if you try to create a store over a directory that already exists, but which isn't
     a pairtree store that it can recognise, it will raise a L{NotAPairtreeStoreException}.
     """
-    def __init__(self, uri_base, store_dir, shorty_length, hashing_type=None):
+    def __init__(self, uri_base, store_dir, shorty_length=2, hashing_type=None):
         """
         Constructor
         @param store_dir: The file directory where the pairtree store is
